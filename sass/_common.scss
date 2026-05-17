@@ -1,0 +1,23 @@
+@use "sass:map";
+
+// _common.scss
+
+$breakpoints: (
+  // ① スマホ (767px以下)
+  sp: "screen and (max-width: 767px)",
+
+  // ② タブレットのみ (768px 〜 1024px)
+  tab: "screen and (min-width: 768px) and (max-width: 1024px)",
+
+  // ③ PC (1025px以上)
+  pc: "screen and (min-width: 1025px)",
+
+  // ④ タブレット以上（PCも含める便利な設定）
+  md: "screen and (min-width: 768px)"
+);
+
+@mixin mq($breakpoint: pc) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}

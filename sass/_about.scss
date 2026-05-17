@@ -1,0 +1,487 @@
+// _about.scss
+@use "sass:map";
+// ファイルの冒頭で common を読み込む（as * で global. などを省略可能に）
+@use "common" as *;
+$breakpoints: (
+  // ① スマホ (767px以下)
+  sp: "screen and (max-width: 767px)",
+
+  // ② タブレットのみ (768px 〜 1024px)
+  tab: "screen and (min-width: 768px) and (max-width: 1024px)",
+
+  // ③ PC (1025px以上)
+  pc: "screen and (min-width: 1025px)",
+
+  // ④ タブレット以上（PCも含める便利な設定）
+  md: "screen and (min-width: 768px)"
+);
+
+@mixin mq($breakpoint: pc) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+/* ===========================
+ ここから About ページ専用のスタイル
+   =========================== */
+
+.about-page {
+
+  .mv {
+    position: relative;
+    height: 720px;
+    width: 100%;
+    overflow: hidden;
+    display: flex; // 文字を中央付近に置くため
+    align-items: center;
+
+    // 1. 背景画像レイヤー（ここが動く！）
+    &__bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("../img/about__mv.png") center/cover no-repeat;
+      // アニメーション名を「mvZoom」に統一
+      animation: mvZoom 20s ease-in-out infinite;
+      z-index: 1; // 一番下
+    }
+
+    // 2. 文字を見やすくする白いモヤ（テキストが消えないようz-indexを調整）
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 2; // 画像の上
+    }
+
+    // 3. テキストが入っている中身（z-indexを最大にする）
+    &__inner {
+      position: relative;
+      z-index: 10; // ★ここを大きくしました。これでテキストが表に出ます
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    &__content {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 60px;
+      width: 320px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      // ↓ ここで fadeUp を呼ぶ
+      animation: fadeUp 1.5s ease forwards;
+
+      @include mq(pc) {
+        width: 460px;
+
+      }
+    }
+
+    &__title {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 16px;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 2px;
+        background: #e8b8ad;
+        margin-top: 10px;
+        margin-left: auto; // 右側の余白を自動に
+        margin-right: auto; // 左側の余白を自動に（これで中央へ）
+
+        @include mq(md) {
+          margin-left: 0;
+        }
+      }
+
+
+      @include mq(pc) {
+        font-size: 32px;
+
+      }
+
+    }
+
+    &__text {
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    // -------------------------------------------
+    // アニメーション定義（ここがズレてると動きません）
+    // -------------------------------------------
+    @keyframes mvZoom {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  // スマホ対応：768px以下
+  @media screen and (max-width: 768px) {
+    .mv {
+      height: 450px; // スマホでは高さを抑える
+
+      &__content {
+        padding: 24px;
+        margin: 0 auto; // スマホでは中央寄せにする場合
+        text-align: center;
+      }
+
+      &__title {
+        font-size: 24px;
+
+
+      }
+
+      &__text {
+        font-size: 18px;
+      }
+    }
+  }
+
+  /* ===========================
+  skills スキル
+   =========================== */
+
+  .skills {
+    padding: 100px 0;
+    background-color: #fff;
+
+    &__inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+
+    &__list {
+      display: flex;
+      justify-content: space-between; // 3つのカードを均等に配置
+      gap: 20px; // カード同士の隙間
+
+      @include mq(sp) {
+        flex-direction: column; // スマホでは縦並び
+        align-items: center;
+      }
+    }
+
+    &__item {
+      flex: 0 0 23%; // 4つ並ぶように幅を調整      
+      text-align: center;
+      padding-bottom: 20px; // 下側に少し余白
+
+      @include mq(sp) {
+        width: 100%;
+      }
+    }
+
+    &__icon {
+      // HTMLのクラス名に合わせました
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 150px;
+        height: auto;
+        display: block;
+      }
+    }
+
+    &__title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    &__text {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  }
+
+  /* ===========================
+   制作スタンス
+   =========================== */
+
+
+  .stance {
+    padding: 100px 0 0; // 上下の余白をガッツリ取る（Figma準拠）
+    background-color: #FDF9F8;
+
+    &__inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+
+    &__content {
+      display: flex;
+      align-items: center; // 上下中央揃え
+      justify-content: center;
+      gap: 50px; // 画像とテキストの間の距離を広げる
+
+      @include mq(sp) {
+        // スマホでは縦並び
+        flex-direction: column;
+        gap: 30px;
+      }
+    }
+
+
+  }
+
+  .stance__image {
+    flex: 0 0 50%; // 幅を固定
+    position: relative; // 擬似要素を使うための準備
+
+    // 右側の余白を打ち消して画面端まで伸ばす
+    margin-right: calc(50% - 50vw);
+    // それに伴い、画像そのものも右端まで埋める
+    width: auto;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover; // 画像が歪まないように調整
+      // 画像の左側を透過させるマスク
+
+      mask-image: linear-gradient(to left, black 80%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to left, black 80%, transparent 100%);
+    }
+  }
+
+  .stance__text {
+    flex: 1;
+    text-align: left;
+
+    font-family: "Noto Serif JP", serif;
+    font-size: 16px;
+    line-height: 2.2; // 行間をさらに広く（寄り添う優しさ）
+    color: #6B5B53;
+    letter-spacing: 0.05em;
+
+    @include mq(pc) {
+      font-size: 18px;
+    }
+  }
+
+
+  /* ===========================
+    profile 目標
+   =========================== */
+
+  .profile {
+    padding: 80px 0;
+
+    &__inner {
+      width: min(100% - 40px, 1080px);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr; // 1列にする
+      gap: 60px;
+      position: relative;
+
+      @include mq(pc) {
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+
+
+
+      }
+
+
+
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 1px;
+        background: #e8ddd8;
+
+        @include mq(sp) {
+          display: none;
+
+        }
+
+      }
+
+
+
+
+    }
+
+    &__block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+
+
+      @include mq(pc) {
+        justify-content: space-between;
+
+
+      }
+    }
+
+    .sec__ttl {
+
+      text-align: left;
+
+
+      &::after {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 2px;
+        background: #e8b8ad;
+        margin-top: 10px;
+      }
+    }
+
+    &__text {
+      font-size: 14px;
+      line-height: 2;
+    }
+
+    &__image {
+      flex-shrink: 0;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      &--square {
+        width: 180px;
+        height: 180px;
+      }
+
+      &--circle {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+      }
+    }
+
+
+
+
+
+
+
+
+  }
+
+  /* ===========================
+  thanks セクション（インナー幅に合わせる版）
+  =========================== */
+
+  .thanks {
+    background: #fdf6f5;
+    padding: 80px 0; // 上下の余白
+
+    &__inner {
+      /* 他のセクションと共通のインナー幅に合わせる */
+      width: min(100% - 40px, 1080px);
+      margin: 0 auto;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between; // ★これで両端に配置される
+      align-items: center;
+    }
+
+    &__icon {
+      width: 60px;
+      height: auto;
+      flex-shrink: 0;
+
+      &:first-child {
+        transform: rotate(10deg);
+      }
+
+      &:last-child {
+        transform: scaleX(-1) rotate(10deg);
+      }
+    }
+
+    &__text {
+      text-align: center;
+      /* テキストがアイコンに近すぎないよう、最低限の余白を確保 */
+      padding: 0 20px;
+
+      p {
+        font-size: 15px;
+        line-height: 2;
+        margin: 0;
+        color: #5c514d;
+      }
+    }
+  }
+
+  /* スマホ用調整 */
+  @include mq(sp) {
+    .thanks {
+      padding: 50px 0;
+
+      &__inner {
+        /* スマホでは間隔を space-between ではなく gap に戻すと綺麗です */
+        justify-content: center;
+        gap: 20px;
+      }
+
+      &__icon {
+        width: 35px;
+      }
+
+      &__text p {
+        font-size: 13px;
+      }
+    }
+  }
+
+}

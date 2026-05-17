@@ -1,0 +1,841 @@
+@use "sass:map";
+@use "common"; // 共通設定
+@use "about"; // Aboutページ
+@use "works"; // worksページ
+@use "contact"; // contactページ
+
+
+// すべての要素に対して明朝体を強制する
+
+
+$breakpoints: (
+  // ① スマホ (767px以下)
+  sp: "screen and (max-width: 767px)",
+
+  // ② タブレットのみ (768px 〜 1024px)
+  tab: "screen and (min-width: 768px) and (max-width: 1024px)",
+
+  // ③ PC (1025px以上)
+  pc: "screen and (min-width: 1025px)",
+
+  // ④ タブレット以上（PCも含める便利な設定）
+  md: "screen and (min-width: 768px)"
+);
+
+@mixin mq($breakpoint: pc) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: "Noto Serif JP", serif !important; // これで全ての要素を明朝体に
+}
+
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  color: #4A3636;
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+/* ===========================
+共通部分
+セクションタイトル 
+   =========================== */
+
+.sec__ttl {
+  font-family: "Noto Serif JP", serif;
+  text-align: center;
+  font-style: 32px;
+  font-weight: 500; // 太すぎないのが上品
+  margin-bottom: 80px; // タイトル下の余白
+
+  @include mq(pc) {
+    font-size: 32px;
+    margin-bottom: 90px; // タイトル下の余白
+    letter-spacing: 0.1em;
+
+  }
+
+}
+
+/* ===========================
+ header ヘッダー
+   =========================== */
+
+
+
+.header {
+  width: 100%;
+  background-color: #fff; // 白背景
+  position: sticky; // スクロールしても上についてくるようにする場合
+  top: 0;
+  z-index: 100;
+
+  &__inner {
+    max-width: 960px; // コンテンツの最大幅
+    margin: 0 auto; // 中央寄せ
+    padding: 20px; // 上下の余白（デザインに合わせて調整）
+    display: flex;
+    justify-content: space-between; // ロゴとナビを左右に飛ばす
+    align-items: center; // 上下の中央を揃える
+  }
+
+  &__logo {
+    a {
+      font-size: 20px;
+      font-weight: 700;
+      text-decoration: none;
+
+      @include mq(pc) {
+        font-size: 32px; // デザインに合わせたサイズ
+        line-height: 1.7;
+
+      }
+    }
+  }
+
+  &__nav {
+    .nav__list {
+      display: none;
+
+      @include mq(pc) {
+        display: flex;
+        gap: 30px; // メニュー同士の間隔
+        list-style: none;
+
+      }
+    }
+
+    .nav__item {
+
+      a {
+        text-decoration: none;
+        font-size: 20px;
+        font-weight: 700;
+        transition: opacity 0.3s;
+
+        &:hover {
+          opacity: 0.6; // ホバー時に少し薄くする
+        }
+      }
+    }
+  }
+
+  .hamburger {
+    // ボタン全体のサイズと位置
+    width: 30px;
+    height: 24px;
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block; // スマホでは表示
+    z-index: 101;
+
+    @include mq(md) {
+      display: none; // PCでは隠す
+    }
+
+    // 3本線の共通設定
+    &__bar {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px; // 線の太さ
+      background-color: #6B5B53; // 文字色と合わせる
+      transition: all 0.3s; // クリックした時の動き用
+
+      // 1本目（上）
+      &:nth-child(1) {
+        top: 0;
+      }
+
+      // 2本目（真ん中）
+      &:nth-child(2) {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      // 3本目（下）
+      &:nth-child(3) {
+        bottom: 0;
+      }
+    }
+
+    &.is-open {
+      .hamburger__bar {
+        &:nth-child(1) {
+          transform: translateY(11px) rotate(45deg); // 下に下げて45度回転
+        }
+
+        &:nth-child(2) {
+          opacity: 0; // 真ん中の線は消す
+        }
+
+        &:nth-child(3) {
+          transform: translateY(-11px) rotate(-45deg); // 上に上げてマイナス45度回転
+        }
+      }
+    }
+
+  }
+
+  // =============================
+  // Drawer Nav ドロワーメニュー
+  // =============================
+
+  .drawer__nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    background-color: #fcf8f7;
+    text-align: center;
+    z-index: 100;
+    padding: 0;
+
+    // 初期状態：右側に隠す
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+
+    // JS で .is-open を付与したら表示
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+
+  // ドロワー上部（タイトル + 閉じるボタン）
+  .drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .drawer__title {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+  }
+
+  // ナビリスト
+  .drawer__nav-list {
+    list-style: none;
+    margin: 0;
+    padding-top: 40px;
+
+    li {
+      padding: 40px 0;
+      border-bottom: 1px solid #4A3636;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+
+      // 英語ラベル
+      a,
+      &>span:first-child,
+      & {
+        display: block;
+        font-size: 24px; // ★少し大きく
+        font-weight: 600;
+        margin-bottom: 8px; // ★日本語との距離      text-decoration: none;
+      }
+
+      // 日本語サブラベル
+      span {
+        display: block;
+        font-size: 14px;
+        opacity: 0.8; // ★日本語だけ少しだけ薄くするとオシャレ        font-weight: 400;
+        margin-top: 4px;
+        letter-spacing: 0.08em;
+      }
+    }
+  }
+
+  // オーバーレイ（ドロワー背景の暗幕）
+  .drawer__overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 99;
+
+    &.is-open {
+      display: block;
+    }
+  }
+}
+
+// スマホの時はハンバーガーメニュー以外を隠す設定が必要になりますが、
+// まずはPC版の見た目をこれで整えてみてください！
+//
+.mv {
+  position: relative;
+  height: 720px;
+  width: 100%;
+  overflow: hidden;
+  display: flex; // 文字を中央付近に置くため
+  align-items: center;
+
+  // 1. 背景画像レイヤー（ここが動く！）
+  &__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../img/mv__bg.png") center/cover no-repeat;
+    // アニメーション名を「mvZoom」に統一
+    animation: mvZoom 20s ease-in-out infinite;
+    z-index: 1; // 一番下
+  }
+
+  // 2. 文字を見やすくする白いモヤ（テキストが消えないようz-indexを調整）
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.3);
+    z-index: 2; // 画像の上
+  }
+
+  // 3. テキストが入っている中身（z-indexを最大にする）
+  &__inner {
+    position: relative;
+    z-index: 10; // ★ここを大きくしました。これでテキストが表に出ます
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__content {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 60px;
+    width: 320px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    // ↓ ここで fadeUp を呼ぶ
+    animation: fadeUp 1.5s ease forwards;
+
+    @include mq(pc) {
+      width: 460px;
+
+    }
+  }
+
+  &__title {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 16px;
+
+    @include mq(pc) {
+      font-size: 32px;
+
+    }
+
+  }
+
+  &__text {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  // -------------------------------------------
+  // アニメーション定義（ここがズレてると動きません）
+  // -------------------------------------------
+  @keyframes mvZoom {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.1);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// スマホ対応：768px以下
+@media screen and (max-width: 768px) {
+  .mv {
+    height: 450px; // スマホでは高さを抑える
+
+    &__content {
+      padding: 24px;
+      margin: 0 auto; // スマホでは中央寄せにする場合
+      text-align: center;
+    }
+
+    &__title {
+      font-size: 24px;
+    }
+
+    &__text {
+      font-size: 18px;
+    }
+  }
+}
+
+/* ===========================
+about アバウト
+   =========================== */
+
+.about {
+  padding: 100px 0; // 上下の余白をガッツリ取る（Figma準拠）
+  background-color: #fff;
+
+  &__inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+
+  &__content {
+    display: flex;
+    align-items: center; // 上下中央揃え
+    justify-content: center;
+    gap: 80px; // 画像とテキストの間の距離を広げる
+
+    @include mq(sp) {
+      // スマホでは縦並び
+      flex-direction: column;
+      gap: 30px;
+    }
+  }
+
+  &__image {
+    flex: 0 0 45%; // 幅を45%に固定
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      box-shadow: 10px 10px 0px #FDF9F8; // もしデザインに遊び心を入れるなら
+    }
+  }
+
+  &__text {
+    flex: 1;
+    text-align: left;
+
+    font-family: "Noto Serif JP", serif;
+    font-size: 16px;
+    line-height: 2.2; // 行間をさらに広く（寄り添う優しさ）
+    color: #6B5B53;
+    letter-spacing: 0.05em;
+
+    @include mq(pc) {
+      font-size: 18px;
+    }
+  }
+}
+
+/* ===========================
+works ワークス
+   =========================== */
+
+.works {
+  padding: 100px 0;
+  background-color: #FDF9F8; // デザイン画像にある薄い背景色
+
+  &__inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+
+  &__list {
+    display: flex;
+    justify-content: space-between; // 3つのカードを均等に配置
+    gap: 20px; // カード同士の隙間
+
+    @include mq(sp) {
+      flex-direction: column; // スマホでは縦並び
+      align-items: center;
+    }
+  }
+
+  &__item {
+    flex: 0 0 31%; // 3カラム（31% + 隙間 = 100%弱）
+    background-color: #fff; // カード自体は白背景
+    padding-bottom: 20px; // 下側に少し余白
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25); // Figmaの値を適用
+
+    @include mq(sp) {
+      width: 100%;
+      max-width: 350px;
+    }
+  }
+
+  &__imge {
+    // HTMLのクラス名に合わせました
+    width: 100%;
+    margin-bottom: 15px;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
+  &__text {
+    padding: 0 15px; // 文字の左右に余白
+    font-size: 14px;
+    line-height: 1.6;
+    color: #6B5B53;
+    font-family: "Noto Serif JP", serif; // 全て明朝体
+  }
+}
+
+/* ===========================
+Works モーダル表示用のスタイル  
+=========================== */
+
+/* モーダル表示用のスタイル */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); // 背景を暗く
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+
+  &.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__content {
+    max-width: 80%;
+    max-height: 80%;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border: 4px solid #fff; // 写真枠のような白枠
+    }
+  }
+}
+
+/* クリックできることを示すためにカーソルを変える */
+.js-modal {
+  cursor: zoom-in;
+  display: block;
+}
+
+
+/* ===========================
+contact  コンタクト
+  =========================== */
+
+
+.contact {
+
+  // 基本（スマホ）の設定
+  padding: 60px 0; // スマホは余白を少し狭める
+  background: url(../img/contact__sp.png) center/cover no-repeat;
+
+  @include mq(pc) {
+    background-image: url("../img/contact__image.png"); // 画像名はご自身のものに合わせてください
+    padding: 100px 0;
+    // 背景画像の設定
+    background-size: cover;
+    background-position: center;
+
+  }
+
+  &__inner {
+    max-width: 800px; // フォームは少し細めにすると見やすい
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__text {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+}
+
+.form-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @include mq(pc) {
+    flex-direction: row;
+    align-items: flex-start; // お問い合わせ内容（長文）の時にラベルを上に固定
+    gap: 44px;
+
+  }
+
+  //法人/個人の選択 
+
+  .form-select {
+    display: flex;
+    gap: 20px;
+    flex: 1; // 横幅いっぱいに広げる
+  }
+
+  .form-radio {
+    flex: 1;
+    position: relative;
+
+    // 本物の丸いボタンは隠す
+    input[type="radio"] {
+      display: none;
+    }
+
+    // ラジオボタンの見た目（白い四角）
+    label {
+      display: block;
+      width: 100%;
+      background-color: #fff;
+      color: #6B5B53; // 文字色
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-family: "Noto Serif JP", serif;
+      transition: all 0.3s;
+      border: 1px solid transparent; // 枠線を準備しておく
+      box-shadow: 5px 5px 16px 0 rgba(96, 96, 96, 0.16);
+      // labelタグのデフォルトの茶色背景を打ち消す（重要！）
+      flex: none;
+    }
+
+    // 選択された時のスタイル（画像に合わせるなら枠線を出すなど）
+    input[type="radio"]:checked+label {
+      outline: 2px solid #6B5B53; // 選択されたら少し強調
+      font-weight: 700;
+    }
+  }
+
+
+  // 茶色のラベル部分
+
+  label {
+    width: 180px; // 横幅
+    height: 40px; // ★高さを40pxに固定    
+    background-color: #6B5B53; // デザイン通りの濃い茶色
+    color: #fff;
+    padding: 8px 15px; // スマホでは少しスリムに
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+
+
+    @include mq(pc) {
+
+      flex: 0 0 240px; // ラベルの幅を固定
+      padding: 12px 20px;
+
+    }
+  }
+
+  input,
+  textarea {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background-color: #fff;
+    font-family: "Noto Serif JP", serif;
+    box-shadow: 5px 5px 16px 0 rgba(96, 96, 96, 0.16);
+
+    &:focus {
+      outline: 1px solid #6B5B53; // 入力中の枠線
+    }
+  }
+
+  // お問い合わせ内容だけ高さを出す
+  textarea {
+
+    height: 150px;
+  }
+}
+
+
+/* プライバシーポリシー */
+
+.form-privacy {
+  margin-top: 20px;
+  display: flex; // flexboxを使う
+  justify-content: center; // 横方向の中央揃え
+  width: 100%; // 横幅いっぱい使って中央を探す
+
+  &__label {
+    // 既存の .form-group label のスタイルを打ち消す設定
+    background-color: transparent !important; // 茶色背景を消す
+    color: #6B5B53 !important; // 文字色を茶色に
+    width: auto !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 500;
+    gap: 10px;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #6B5B53; // チェックの色をテーマカラーに
+    }
+  }
+
+  &__text {
+    font-size: 14px;
+
+    a {
+      color: #6B5B53;
+      text-decoration: underline;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+// 送信ボタン
+
+.form-btn {
+  margin: 40px auto 0;
+  display: block;
+  width: 160px;
+  padding: 12px;
+  border: 2px solid #6B5B53;
+  background-color: #fff;
+  color: #6B5B53;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: #6B5B53;
+    color: #fff;
+  }
+}
+
+/* ===========================
+ footer フッター
+=========================== */
+
+.footer {
+  padding: 60px 0 20px; // 下側はコピーライトがあるので少し狭めに
+  background-color: #fff;
+  border-top: 1px solid #f0f0f0; // 境目をうっすら入れると綺麗です
+
+  &__inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between; // 左右に飛ばす
+    align-items: center;
+    flex-wrap: wrap; // 折り返しを許可してコピーライトを下に送る
+  }
+
+  &__logo {
+    font-family: "Noto Serif JP", serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #6B5B53;
+  }
+
+  &__nav {
+    .footer__list {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .footer__item {
+
+      &:hover {
+        opacity: 0.6;
+      }
+
+      a {
+      font-family: "Noto Serif JP", serif;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.3s;
+
+      }
+    }
+  }
+
+  &__copyright {
+    width: 100%; // 横幅いっぱいにして強制的に改行させる
+    text-align: center;
+    margin-top: 40px; // ロゴ・ナビとの間隔
+    font-size: 18px;
+    font-family: "Noto Serif JP", serif;
+
+    small {
+      font-size: 12px;
+    }
+  }
+}
+
+// スマホ対応
+@include mq(sp) {
+  .footer {
+    &__inner {
+      flex-direction: column; // 縦並びに
+      gap: 30px;
+    }
+
+    &__nav .footer__list {
+      gap: 20px;
+    }
+  }
+}

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Mikiko Portfolio</title>
+    <!-- Google　font読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS読み込み -->
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body class="about-page">
+    <header class="header">
+      <div class="header__inner">
+        <div class="header__logo">
+          <a href="index.html">Mikiko Portfolio </a>
+        </div>
+        <nav class="header__nav">
+          <ul class="nav__list">
+            <li class="nav__item"><a href="#about">About</a></li>
+            <li class="nav__item"><a href="works.html">Works</a></li>
+            <li class="nav__item"><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="hamburger">
+          <span class="hamburger__bar"></span>
+          <span class="hamburger__bar"></span>
+          <span class="hamburger__bar"></span>
+        </div>
+        <nav class="drawer__nav">
+          <ul class="drawer__nav-list">
+            <li class="drawer__nav-list">
+              <a href="about.html">About</a>
+              <span>私について</span>
+            </li>
+            <li class="drawer__nav-list">
+              <a href="works.html">Works</a>
+              <span>制作実績</span>
+            </li>
+            <li class="drawer__nav-list">
+              <a href="contact.html">Contact</a>
+              <span>お問い合わせ</span>
+            </li>
+          </ul>
+        </nav>
+        <div class="drawer__overlay"></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="mv">
+        <div class="mv__bg"></div>
+        <div class="mv__inner">
+          <div class="mv__content">
+            <p class="mv__title">About</p>
+            <p class="mv__text">私について</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="about" data-aos="fade-up">
+        <div class="about__inner">
+          <h2 class="sec__ttl">ごあいさつ</h2>
+          <div class="about__content">
+            <div
+              class="about__image"
+              data-aos="fade-right"
+              data-aos-duration="1200"
+            >
+              <img src="./img/about__suv.png" alt="優雅な作業の瞬間" />
+            </div>
+            <div
+              class="about__text"
+              data-aos="fade-left"
+              data-aos-duration="1200"
+              data-aos-delay="200"
+            >
+              はじめまして、Mikikoです。 <br />
+              現在は介護の仕事をしながら、Web制作の勉強をしています。 <br />
+              人の役に立てる仕事がしたいという気持ちから、 <br />
+              Webの世界に興味を持ちました。 <br />
+              見る人が安心できて、やさしく伝わるデザインを <br />
+              心がけて制作しています。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="skills" data-aos="fade-up">
+        <div class="skills__inner">
+          <h2 class="sec__ttl">スキル</h2>
+          <div class="skills__content">
+            <ul class="skills__list">
+              <li class="skills__item" data-aos="fade-up" data-aos-delay="100">
+                <div class="skills__icon">
+                  <img src="./img/Ellipse 15.svg" alt="PCアイコン" />
+                </div>
+                <h3 class="skills__title">HTML / CSS / SCSS</h3>
+                <p class="skills__text">
+                  コーディングが得意です。<br />
+                  BEM設計で、読みやすく<br />
+                  保守しやすいコードを書くことを<br />
+                  心がけています。
+                </p>
+              </li>
+              <li class="skills__item" data-aos="fade-up" data-aos-delay="200">
+                <div class="skills__icon">
+                  <img src="./img/Ellipse 17.svg" alt="スマホアイコン" />
+                </div>
+                <h3 class="skills__title">レスポンシブ対応</h3>
+                <p class="skills__text">
+                  さまざまなデバイスで<br />
+                  見やすく、使いやすい<br />
+                  サイトを制作します。
+                </p>
+              </li>
+              <li class="skills__item" data-aos="fade-up" data-aos-delay="300">
+                <div class="skills__icon">
+                  <img src="./img/Ellipse 19.svg" alt="ペンアイコン" />
+                </div>
+                <h3 class="skills__title">デザインカンプからの実装</h3>
+                <p class="skills__text">
+                  Figmaなどのデザインカンプをもとに、<br />
+                  正確に再現することができます。<br />
+                  細かな調整も丁寧に行います。
+                </p>
+              </li>
+              <li class="skills__item" data-aos="fade-up" data-aos-delay="300">
+                <div class="skills__icon">
+                  <img src="./img/Ellipse 18.svg" alt="ツールアイコン" />
+                </div>
+                <h3 class="skills__title">ツール</h3>
+                <p class="skills__text">
+                  Figma / VS Code / Git<br />
+                  を使用しています。
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="stance" class="stance" data-aos="fade-up">
+        <div class="stance__inner">
+          <h2 class="sec__ttl">制作スタンス</h2>
+          <div class="stance__content">
+            <div
+              class="stance__text"
+              data-aos="fade-left"
+              data-aos-duration="1200"
+              data-aos-delay="200"
+            >
+              丁寧でわかりやすいコーディングを心がけています <br />
+              見る人の立場に立った、やさしいデザインを大切にしています <br />
+              ご要望に寄り添い、柔軟に対応します
+            </div>
+            <div
+              class="stance__image"
+              data-aos="fade-right"
+              data-aos-duration="1200"
+            >
+              <img
+                src="./img/ChatGPT Image 2026年4月24日 14_57_52.png"
+                alt="優雅な作業の瞬間"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+<section id="profile" class="profile" data-aos="fade-up">
+  <div class="profile__inner">
+    <div class="profile__block">
+      <div class="profile__text">
+        <h2 class="sec__ttl">目標</h2>
+        <p>
+          在宅で働けるようになること。<br />
+          そして誰かの役に立つWebサイトを<br />
+          作れるようになることが目標です。
+        </p>
+      </div>
+
+      <div class="profile__image profile__image--square">
+        <img src="./img/cafe.png" alt="カフェとノート" />
+      </div>
+    </div>
+
+    <div class="profile__block">
+      <div class="profile__text">
+        <h2 class="sec__ttl">好きなこと</h2>
+        <p>
+          カフェでゆっくり過ごすことや、<br />
+          オカメインコと過ごす時間が<br />
+          癒しです。
+        </p>
+      </div>
+
+      <div class="profile__image profile__image--circle">
+        <img src="./img/bird.png" alt="オカメインコ" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="thanks" data-aos="fade-up">
+  <div class="thanks__inner">
+    <img src="./img/icon-left.svg" alt="" class="thanks__icon">
+    
+    <div class="thanks__text">
+      <p>ご覧いただきありがとうございます。</p>
+      <p>ご依頼やご相談など、お気軽にお問い合わせください。</p>
+    </div>
+    
+    <img src="./img/icon-left.svg" alt="" class="thanks__icon">
+  </div>
+</section>    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__logo">
+          <a href="index.html"></a>Mikiko Portfolio
+        </div>
+        <nav class="footer__nav">
+          <ul class="footer__list">
+            <li class="footer__item"><a href="#about">About</a></li>
+            <li class="footer__item"><a href="#works">Works</a></li>
+            <li class="footer__item"><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <p class="footer__copyright">
+          <small>© 2026 Mikiko All rights reserved</small>
+        </p>
+      </div>
+    </footer>
+    <script src="./js/script.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        offset: 100, // スクロールしてから動くまでの距離
+        duration: 1000, // アニメーションにかける時間(ミリ秒)
+        easing: "ease", // 動き方
+        once: true, // 一回きり（スクロールを戻しても消えない）
+      });
+    </script>
+  </body>
+</html>

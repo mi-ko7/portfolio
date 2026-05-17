@@ -1,0 +1,298 @@
+// _works.scss
+@use "sass:map";
+// ファイルの冒頭で common を読み込む（as * で global. などを省略可能に）
+@use "common" as *;
+$breakpoints: (
+  // ① スマホ (767px以下)
+  sp: "screen and (max-width: 767px)",
+
+  // ② タブレットのみ (768px 〜 1024px)
+  tab: "screen and (min-width: 768px) and (max-width: 1024px)",
+
+  // ③ PC (1025px以上)
+  pc: "screen and (min-width: 1025px)",
+
+  // ④ タブレット以上（PCも含める便利な設定）
+  md: "screen and (min-width: 768px)"
+);
+
+@mixin mq($breakpoint: pc) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+/* ===========================
+ ここから Works ページ専用のスタイル
+   =========================== */
+
+.works-page {
+
+  .mv {
+    position: relative;
+    height: 720px;
+    width: 100%;
+    overflow: hidden;
+    display: flex; // 文字を中央付近に置くため
+    align-items: center;
+
+    // 1. 背景画像レイヤー（ここが動く！）
+    &__bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("../img/works_mv.png") center/cover no-repeat;
+      // アニメーション名を「mvZoom」に統一
+      animation: mvZoom 20s ease-in-out infinite;
+      z-index: 1; // 一番下
+    }
+
+    // 2. 文字を見やすくする白いモヤ（テキストが消えないようz-indexを調整）
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 2; // 画像の上
+    }
+
+    // 3. テキストが入っている中身（z-indexを最大にする）
+    &__inner {
+      position: relative;
+      z-index: 10; // ★ここを大きくしました。これでテキストが表に出ます
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    &__content {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 60px;
+      width: 320px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      // ↓ ここで fadeUp を呼ぶ
+      animation: fadeUp 1.5s ease forwards;
+
+      @include mq(pc) {
+        width: 460px;
+
+      }
+    }
+
+    &__title {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 16px;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 2px;
+        background: #e8b8ad;
+        margin-top: 10px;
+        margin-left: auto; // 右側の余白を自動に
+        margin-right: auto; // 左側の余白を自動に（これで中央へ）
+
+        @include mq(md) {
+          margin-left: 0;
+        }
+      }
+
+
+      @include mq(pc) {
+        font-size: 32px;
+
+      }
+
+    }
+
+    &__text {
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    // -------------------------------------------
+    // アニメーション定義（ここがズレてると動きません）
+    // -------------------------------------------
+    @keyframes mvZoom {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  // スマホ対応：768px以下
+  @media screen and (max-width: 768px) {
+    .mv {
+      height: 450px; // スマホでは高さを抑える
+
+      &__content {
+        padding: 24px;
+        margin: 0 auto; // スマホでは中央寄せにする場合
+        text-align: center;
+      }
+
+      &__title {
+        font-size: 24px;
+      }
+
+      &__text {
+        font-size: 18px;
+      }
+    }
+  }
+
+
+
+/* ===========================
+  Works ページ専用スタイル修正
+  =========================== */
+
+.works__dtl {
+  padding: 80px 0;
+  background-color: #fff; // 必要に応じて背景色調整
+
+  &-inner {
+    width: min(100% - 40px, 1080px);
+    margin: 0 auto;
+  }
+
+  &-content {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px; // 実績同士の縦の余白
+
+    @include mq(pc) {
+      gap: 120px;
+    }
+  }
+}
+
+.works-item {
+  display: flex;
+  flex-direction: column; // スマホでは縦
+  gap: 24px;
+
+  @include mq(pc) {
+    flex-direction: row; // PCでは横並び
+    align-items: flex-start;
+    gap: 60px;
+  }
+
+  &__image {
+    width: 100%;
+    
+    @include mq(pc) {
+      width: 50%; // 画像を半分に
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+      border-radius: 5px;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+
+  &__body {
+    width: 100%;
+
+    @include mq(pc) {
+      width: 50%;
+    }
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    color: #333;
+
+    @include mq(pc) {
+      font-size: 22px;
+    }
+  }
+
+  &__info {
+    margin-bottom: 30px;
+
+    &-row {
+      display: flex;
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 8px;
+
+      dt {
+        font-weight: 700;
+        width: 6em; // 「担当範囲：」の幅を固定して揃える
+        flex-shrink: 0;
+      }
+      dd {
+        margin-left: 0;
+        color: #555;
+      }
+    }
+  }
+
+  &__text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #444;
+    text-align: justify; // テキストの両端を揃える
+  }
+}
+
+// スマホ用の補正
+@include mq(sp) {
+  .works__dtl {
+    padding: 50px 0;
+    
+    &-content {
+      margin-top: 40px;
+    }
+  }
+  
+  .works-item {
+    &__title {
+      margin-bottom: 16px;
+    }
+    &__info {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+
+}
