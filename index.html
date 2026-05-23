@@ -149,7 +149,11 @@
             data-aos-duration="1000"
           >
             <p class="contact__text">＊は入力必須項目です</p>
-            <div class="form-inner">
+            <form
+              class="form-inner"
+              action="https://formspree.io/f/mgoqzeyk"
+              method="POST"
+                   >
               <div class="form-group">
                 <label for="your-name">お名前 ＊</label>
                 <input type="text" id="your-name" name="your-name" />
@@ -184,7 +188,7 @@
               </div>
               <div class="form-group">
                 <label for="your-message">お問い合わせ内容 ＊</label>
-                <textarea id="your-massage" name="your-messge"></textarea>
+                <textarea id="your-massage" name="your-massage"></textarea>
               </div>
 
               <div class="form-privacy">
@@ -199,7 +203,7 @@
               </div>
 
               <button type="submit" class="form-btn">送信</button>
-            </div>
+            </form>
           </div>
         </div>
       </section>
