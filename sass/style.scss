@@ -32,11 +32,11 @@ $breakpoints: (
 *::before,
 *::after {
   box-sizing: border-box;
-  font-family: "Noto Serif JP", serif !important; // これで全ての要素を明朝体に
+  font-family: "Noto Serif JP", serif;
 }
 
 body {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: "Noto Serif JP", serif;
   color: #4A3636;
   line-height: 1.6;
   background-color: #fff;
@@ -50,7 +50,7 @@ body {
 .sec__ttl {
   font-family: "Noto Serif JP", serif;
   text-align: center;
-  font-style: 32px;
+  font-size: 24px;
   font-weight: 500; // 太すぎないのが上品
   margin-bottom: 80px; // タイトル下の余白
 
@@ -339,6 +339,22 @@ body {
     font-weight: 700;
     line-height: 1.4;
     margin-bottom: 16px;
+
+          &::after {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 2px;
+        background: #e8b8ad;
+        margin-top: 10px;
+        margin-left: auto; // 右側の余白を自動に
+        margin-right: auto; // 左側の余白を自動に（これで中央へ）
+
+        @include mq(md) {
+          margin-left: 0;
+        }
+      }
+
 
     @include mq(pc) {
       font-size: 32px;

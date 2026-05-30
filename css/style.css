@@ -1146,11 +1146,11 @@
 *::after {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: "Noto Serif JP", serif !important;
+  font-family: "Noto Serif JP", serif;
 }
 
 body {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: "Noto Serif JP", serif;
   color: #4A3636;
   line-height: 1.6;
   background-color: #fff;
@@ -1163,7 +1163,7 @@ body {
 .sec__ttl {
   font-family: "Noto Serif JP", serif;
   text-align: center;
-  font-style: 32px;
+  font-size: 24px;
   font-weight: 500;
   margin-bottom: 80px;
 }
@@ -1413,6 +1413,21 @@ body {
   font-weight: 700;
   line-height: 1.4;
   margin-bottom: 16px;
+}
+.mv__title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: #e8b8ad;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media screen and (min-width: 768px) {
+  .mv__title::after {
+    margin-left: 0;
+  }
 }
 @media screen and (min-width: 1025px) {
   .mv__title {
